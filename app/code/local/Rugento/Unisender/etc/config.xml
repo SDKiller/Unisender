@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) <2012>, <Rugento.ru>
+* ЭТА ПРОГРАММА ПРЕДОСТАВЛЕНА ВЛАДЕЛЬЦАМИ АВТОРСКИХ ПРАВ И/ИЛИ ДРУГИМИ
+* СТОРОНАМИ "КАК ОНА ЕСТЬ" БЕЗ КАКОГО-ЛИБО ВИДА ГАРАНТИЙ, ВЫРАЖЕННЫХ ЯВНО
+* ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ ИМИ, ПОДРАЗУМЕВАЕМЫЕ
+* ГАРАНТИИ КОММЕРЧЕСКОЙ ЦЕННОСТИ И ПРИГОДНОСТИ ДЛЯ КОНКРЕТНОЙ ЦЕЛИ. НИ В
+* КОЕМ СЛУЧАЕ, ЕСЛИ НЕ ТРЕБУЕТСЯ СООТВЕТСТВУЮЩИМ ЗАКОНОМ, ИЛИ НЕ УСТАНОВЛЕНО
+* В УСТНОЙ ФОРМЕ, НИ ОДИН ВЛАДЕЛЕЦ АВТОРСКИХ ПРАВ И НИ ОДНО  ДРУГОЕ ЛИЦО,
+* КОТОРОЕ МОЖЕТ ИЗМЕНЯТЬ И/ИЛИ ПОВТОРНО РАСПРОСТРАНЯТЬ ПРОГРАММУ, КАК БЫЛО
+* СКАЗАНО ВЫШЕ, НЕ НЕСЁТ ОТВЕТСТВЕННОСТИ, ВКЛЮЧАЯ ЛЮБЫЕ ОБЩИЕ, СЛУЧАЙНЫЕ,
+* СПЕЦИАЛЬНЫЕ ИЛИ ПОСЛЕДОВАВШИЕ УБЫТКИ, ВСЛЕДСТВИЕ ИСПОЛЬЗОВАНИЯ ИЛИ
+* НЕВОЗМОЖНОСТИ ИСПОЛЬЗОВАНИЯ ПРОГРАММЫ (ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ
+* ПОТЕРЕЙ ДАННЫХ, ИЛИ ДАННЫМИ, СТАВШИМИ НЕПРАВИЛЬНЫМИ, ИЛИ ПОТЕРЯМИ
+* ПРИНЕСЕННЫМИ ИЗ-ЗА ВАС ИЛИ ТРЕТЬИХ ЛИЦ, ИЛИ ОТКАЗОМ ПРОГРАММЫ РАБОТАТЬ
+* СОВМЕСТНО С ДРУГИМИ ПРОГРАММАМИ), ДАЖЕ ЕСЛИ ТАКОЙ ВЛАДЕЛЕЦ ИЛИ ДРУГОЕ
+* ЛИЦО БЫЛИ ИЗВЕЩЕНЫ О ВОЗМОЖНОСТИ ТАКИХ УБЫТКОВ.
+*/
+-->
+<config>
+	<modules>
+		<Rugento_Unisender>
+			<version>1.0.0</version>
+		</Rugento_Unisender>
+	</modules>
+	<global>
+		<models>
+			<unisender>
+				<class>Rugento_Unisender_Model</class>
+			</unisender>
+			<newsletter>
+				<rewrite>
+					<subscriber>Rugento_Unisender_Model_Newsletter_Subscriber</subscriber>
+				</rewrite>
+			</newsletter>
+		</models>
+		<blocks>
+			<unisender>
+				<class>Rugento_Unisender_Block</class>
+			</unisender>
+		</blocks>
+		<helpers>
+			<unisender>
+				<class>Rugento_Unisender_Helper</class>
+			</unisender>
+		</helpers>
+		<events>
+			<customer_delete_after>
+				<observers>
+					<unisender_subscribe_observer>
+						<class>unisender/observer</class>
+						<method>excludeCustomer</method>
+					</unisender_subscribe_observer>
+				</observers>
+			</customer_delete_after>
+		</events>
+	</global>
+	<admin>
+		<routers>
+			<unisender>
+				<use>admin</use>
+				<args>
+					<module>Rugento_Unisender</module>
+					<frontName>unisender</frontName>
+				</args>
+			</unisender>
+		</routers>
+	</admin>
+	<adminhtml>
+		<menu>
+			<newsletter>
+				<children>
+					<unisender translate="title" module="unisender">
+						<title>UniSender</title>
+						<sort_order>81</sort_order>
+						<children>
+							<settings translate="title" module="unisender">
+								<title>Settings</title>
+								<sort_order>1</sort_order>
+								<action>adminhtml/system_config/edit/section/newsletter/groups/unisender</action>
+							</settings>
+							<list translate="title" module="unisender">
+								<title>Lists</title>
+								<sort_order>0</sort_order>
+								<action>unisender/adminhtml_lists</action>
+							</list>
+						</children>
+					</unisender>
+				</children>
+			</newsletter>
+		</menu>
+		<translate>
+			<modules>
+				<Rugento_Unisender>
+					<files>
+						<Rugento_Unisender>Rugento_Unisender.csv</Rugento_Unisender>
+					</files>
+				</Rugento_Unisender>
+			</modules>
+		</translate>
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<unisender>
+											<title>Unisender</title>
+										</unisender>
+									</children>
+								</config>
+							</children>
+						</system>
+						<newsletter>
+							<children>
+								<unisender>
+									<title>Unisender Menu</title>
+									<children>
+										<settings>
+											<title>Settings</title>
+										</settings>
+									</children>
+									<children>
+										<list>
+											<title>List</title>
+										</list>
+									</children>
+								</unisender>
+							</children>
+						</newsletter>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+</config>
