@@ -1,33 +1,22 @@
 <?php
 /**
- * Copyright (c) <2012>, <Rugento.ru>
-* ЭТА ПРОГРАММА ПРЕДОСТАВЛЕНА ВЛАДЕЛЬЦАМИ АВТОРСКИХ ПРАВ И/ИЛИ ДРУГИМИ
-* СТОРОНАМИ "КАК ОНА ЕСТЬ" БЕЗ КАКОГО-ЛИБО ВИДА ГАРАНТИЙ, ВЫРАЖЕННЫХ ЯВНО
-* ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ ИМИ, ПОДРАЗУМЕВАЕМЫЕ
-* ГАРАНТИИ КОММЕРЧЕСКОЙ ЦЕННОСТИ И ПРИГОДНОСТИ ДЛЯ КОНКРЕТНОЙ ЦЕЛИ. НИ В
-* КОЕМ СЛУЧАЕ, ЕСЛИ НЕ ТРЕБУЕТСЯ СООТВЕТСТВУЮЩИМ ЗАКОНОМ, ИЛИ НЕ УСТАНОВЛЕНО
-* В УСТНОЙ ФОРМЕ, НИ ОДИН ВЛАДЕЛЕЦ АВТОРСКИХ ПРАВ И НИ ОДНО  ДРУГОЕ ЛИЦО,
-* КОТОРОЕ МОЖЕТ ИЗМЕНЯТЬ И/ИЛИ ПОВТОРНО РАСПРОСТРАНЯТЬ ПРОГРАММУ, КАК БЫЛО
-* СКАЗАНО ВЫШЕ, НЕ НЕСЁТ ОТВЕТСТВЕННОСТИ, ВКЛЮЧАЯ ЛЮБЫЕ ОБЩИЕ, СЛУЧАЙНЫЕ,
-* СПЕЦИАЛЬНЫЕ ИЛИ ПОСЛЕДОВАВШИЕ УБЫТКИ, ВСЛЕДСТВИЕ ИСПОЛЬЗОВАНИЯ ИЛИ
-* НЕВОЗМОЖНОСТИ ИСПОЛЬЗОВАНИЯ ПРОГРАММЫ (ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ
-* ПОТЕРЕЙ ДАННЫХ, ИЛИ ДАННЫМИ, СТАВШИМИ НЕПРАВИЛЬНЫМИ, ИЛИ ПОТЕРЯМИ
-* ПРИНЕСЕННЫМИ ИЗ-ЗА ВАС ИЛИ ТРЕТЬИХ ЛИЦ, ИЛИ ОТКАЗОМ ПРОГРАММЫ РАБОТАТЬ
-* СОВМЕСТНО С ДРУГИМИ ПРОГРАММАМИ), ДАЖЕ ЕСЛИ ТАКОЙ ВЛАДЕЛЕЦ ИЛИ ДРУГОЕ
-* ЛИЦО БЫЛИ ИЗВЕЩЕНЫ О ВОЗМОЖНОСТИ ТАКИХ УБЫТКОВ.
-*/
+ * @author RUGENTO
+ *
+ */
 class Rugento_Unisender_Block_Adminhtml_Unisender_Import_Tab_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    /* (non-PHPdoc)
+     * @see Mage_Adminhtml_Block_Widget_Form::_prepareForm()
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
         $this->setForm($form);
-        $fieldset = $form->addFieldset('form_form', array('legend'=>Mage::helper('unisender')->__('Mailing Lists (subscribers will be imported in marked list)')));        
+        $fieldset = $form->addFieldset('form_form', array('legend'=>Mage::helper('unisender')->__('Mailing Lists (subscribers will be imported in marked list)')));
         $list = $this->_getList();
-        
-        if($list && count($list))
-        {
-            foreach ($list as $id => $data) 
+
+        if($list && count($list)) {
+            foreach ($list as $id => $data)
             {
                 $fieldset->addField('lists'.$id, 'checkbox', array(
                     'label'     => $data['title'],
@@ -35,27 +24,30 @@ class Rugento_Unisender_Block_Adminhtml_Unisender_Import_Tab_Form extends Mage_A
                     'value' => $data['id'],
                 ));
             }
-                       
+
             $this->_addImportButton();
-            
+
         } else {
             $fieldset->addField('text', 'label', array(
                 'label' => Mage::helper('unisender')->__('No lists. Create?'),
                 'bold' => true,
             ));
-            
+
             $fieldset->addField('list_name', 'text', array(
                 'label' => Mage::helper('unisender')->__('Name List'),
                 'name' => 'new_list',
                 'required' => true,
                 'class'     => 'required-entry',
             ));
-            
+
            $this->_addNewButton();
-        }                
+        }
         return parent::_prepareForm();
-    }   
-    
+    }
+
+    /**
+     *
+     */
     protected function _addNewButton()
     {
         $block = $this->getLayout()->getBlock('content.child0');
@@ -65,7 +57,10 @@ class Rugento_Unisender_Block_Adminhtml_Unisender_Import_Tab_Form extends Mage_A
             'class'     => 'import',
         ), 1);
     }
-    
+
+    /**
+     *
+     */
     protected function _addImportButton()
     {
         $block = $this->getLayout()->getBlock('content.child0');
@@ -75,7 +70,10 @@ class Rugento_Unisender_Block_Adminhtml_Unisender_Import_Tab_Form extends Mage_A
         'class'     => 'import',
         ), 1);
     }
-    
+
+    /**
+     * @return unknown|boolean
+     */
     protected function _getList()
     {
         try {
